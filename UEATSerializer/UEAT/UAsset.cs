@@ -10,8 +10,8 @@ namespace UEATSerializer.UEAT
 
         public UObject UObjectAsset { get; set; }
 
-        public IEnumerable<PackageObject> ImportPackageObjects { get; set; }
-        public IEnumerable<PackageObject> ExportPackageObjects { get; set; }
+        public IEnumerable<PackageObject> ImportPackageObjects { get; set; } = new List<PackageObject>();
+        public IEnumerable<PackageObject> ExportPackageObjects { get; set; } = new List<PackageObject>();
 
         public override int[] ResolveObjectReferences(PackageObjectHierarchy objectHierarchy)
         {
