@@ -17,11 +17,6 @@ namespace UEATSerializer.UEAT
         {
             HashSet<int> referencedObjects = new HashSet<int>();
 
-            if (UObjectAsset != null)
-            {
-                referencedObjects.UnionWith(UObjectAsset.ResolveObjectReferences(objectHierarchy));
-            }
-
             foreach (var importPackageObject in ImportPackageObjects)
             {
                 referencedObjects.Add(objectHierarchy.AddUnique(importPackageObject));
@@ -40,6 +35,11 @@ namespace UEATSerializer.UEAT
                 {
                     referencedObjects.UnionWith(exportPackageObject.ResolveObjectReferences(objectHierarchy));
                 }
+            }
+
+            if (UObjectAsset != null)
+            {
+                referencedObjects.UnionWith(UObjectAsset.ResolveObjectReferences(objectHierarchy));
             }
 
             return referencedObjects.ToArray();
