@@ -1,5 +1,7 @@
 ﻿namespace UEATSerializer.UEAT
 {
+    // this should really just be the full object path
+    // packageName -> outer1Name -> outerNName -> objectName
     public readonly struct UObjectIdentifier : IEquatable<UObjectIdentifier>
     {
         public string PackageName { get; init; }

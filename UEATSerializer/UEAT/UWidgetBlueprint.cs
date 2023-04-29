@@ -11,14 +11,17 @@ namespace UEATSerializer.UEAT
         {
             base.WriteJsonForData(writer, serializer, objectHierarchy);
 
-            writer.WritePropertyName("MovieSceneEventTriggerSectionFunctions");
-            writer.WriteStartObject();
-            foreach (var movieSceneEventTriggerSection in MovieSceneEventTriggerSection)
+            if (MovieSceneEventTriggerSection != null && MovieSceneEventTriggerSection.Count > 0)
             {
-                // write inlined so each section is its own json property
-                movieSceneEventTriggerSection.WriteJsonInlined(writer, serializer, objectHierarchy);
+                writer.WritePropertyName("MovieSceneEventTriggerSectionFunctions");
+                writer.WriteStartObject();
+                foreach (var movieSceneEventTriggerSection in MovieSceneEventTriggerSection)
+                {
+                    // write inlined so each section is its own json property
+                    movieSceneEventTriggerSection.WriteJsonInlined(writer, serializer, objectHierarchy);
+                }
+                writer.WriteEndObject();
             }
-            writer.WriteEndObject();
         }
     }
 
