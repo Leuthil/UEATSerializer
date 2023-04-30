@@ -68,4 +68,71 @@ namespace UEATSerializer.UEAT
             writer.WriteEndObject();
         }
     }
+
+    public class FGuidPropertyValue : FStructPropertyValue
+    {
+        public uint A { get; init; }
+        public uint B { get; init; }
+        public uint C { get; init; }
+        public uint D { get; init; }
+
+        public FGuidPropertyValue(uint v)
+        {
+            A = B = C = D = v;
+        }
+
+        public FGuidPropertyValue(uint a, uint b, uint c, uint d)
+        {
+            A = a;
+            B = b;
+            C = c;
+            D = d;
+        }
+
+        public FGuidPropertyValue(string hexString)
+        {
+            A = Convert.ToUInt32(hexString.Substring(0, 8), 16);
+            B = Convert.ToUInt32(hexString.Substring(8, 8), 16);
+            C = Convert.ToUInt32(hexString.Substring(16, 8), 16);
+            D = Convert.ToUInt32(hexString.Substring(24, 8), 16);
+        }
+
+        public override void WriteJson(JsonWriter writer, JsonSerializer serializer, PackageObjectHierarchy objectHierarchy)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("A");
+            writer.WriteValue(A);
+            writer.WritePropertyName("B");
+            writer.WriteValue(B);
+            writer.WritePropertyName("C");
+            writer.WriteValue(C);
+            writer.WritePropertyName("D");
+            writer.WriteValue(D);
+            writer.WriteEndObject();
+        }
+
+        public override string ToString()
+        {
+            return $"{A:X8}-{B:X8}-{C:X8}-{D:X8}";
+        }
+
+        public static bool operator ==(FGuidPropertyValue one, FGuidPropertyValue two) => one.A == two.A && one.B == two.B && one.C == two.C && one.D == two.D;
+        public static bool operator !=(FGuidPropertyValue one, FGuidPropertyValue two) => one.A != two.A || one.B != two.B || one.C != two.C || one.D != two.D;
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not FGuidPropertyValue)
+            {
+                return false;
+            }
+
+            return this == (FGuidPropertyValue)obj;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(A, B, C, D);
+        }
+    }
+
 }
