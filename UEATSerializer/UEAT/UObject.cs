@@ -11,6 +11,9 @@ namespace UEATSerializer.UEAT
         public string ObjectName { get; set; }
         public string OuterName { get; set; }
 
+        // Names of properties that will not be serialized
+        public List<string> DisabledProperties { get; set; } = new List<string>();
+
         public List<KeyValuePair<string, FPropertyValue>> Properties { get; set; } = new List<KeyValuePair<string, FPropertyValue>>();
 
         public virtual int[] ResolveObjectReferences(PackageObjectHierarchy objectHierarchy)
@@ -44,6 +47,11 @@ namespace UEATSerializer.UEAT
             writer.WriteStartObject();
             foreach (var property in Properties)
             {
+                if (DisabledProperties.Contains(property.Key))
+                {
+                    continue;
+                }
+
                 if (property.Value == null)
                 {
                     continue;

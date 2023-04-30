@@ -10,6 +10,17 @@ namespace UEATSerializer.UEAT
         //                              Timelines.LinearColorTracks)
         public HashSet<string> GeneratedVariableNames { get; set; } = new HashSet<string>();
 
+        public UBlueprint()
+        {
+            DisabledProperties.AddRange(new[] {
+                "UberGraphFunction",
+                "CookedComponentInstancingData",
+                "NumReplicatedProperties",
+                "bHasNativizedParent",
+                "bHasCookedComponentInstancingData",
+            });
+        }
+
         public override void WriteJsonInlined(JsonWriter writer, JsonSerializer serializer, PackageObjectHierarchy objectHierarchy)
         {
             // workaround to always serialize a SimpleConstructionScript property even if it doesn't exist

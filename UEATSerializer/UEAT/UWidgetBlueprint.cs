@@ -7,6 +7,14 @@ namespace UEATSerializer.UEAT
     {
         public List<UMovieSceneEventTriggerSection> MovieSceneEventTriggerSection { get; set; } = new List<UMovieSceneEventTriggerSection>();
 
+        public UWidgetBlueprint() : base()
+        {
+            DisabledProperties.AddRange(new[] {
+                "bHasScriptImplementedTick",
+                "bHasScriptImplementedPaint",
+            });
+        }
+
         protected override void WriteJsonForData(JsonWriter writer, JsonSerializer serializer, PackageObjectHierarchy objectHierarchy)
         {
             base.WriteJsonForData(writer, serializer, objectHierarchy);
