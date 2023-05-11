@@ -15,26 +15,20 @@ namespace UEATSerializer.UEAT
         /// </summary>
         //public string ImportedSize { get; set; }
 
-        /// <summary>
-        /// Serialization disabled. No need to fill out.
-        /// Not sure what the property actually is, should be int32 of some sort)
-        /// </summary>
-        //public string FirstResourceMemMip { get; set; }
-
-        public int TextureWidth { get; set; }
-        public int TextureHeight { get; set; }
-        public int TextureDepth { get; set; }
-        public int NumSlices { get; set; }
-
-        /// <summary>
-        /// UTexture2D::GetPixelFormatEnum() value name as string
-        /// </summary>
+        public int TextureWidth { get; set; } = 1;
+        public int TextureHeight { get; set; } = 1;
+        public int TextureDepth { get; set; } = 1;
+        public int NumSlices { get; set; } = 1;
         public string CookedPixelFormat { get; set; }
+        public string SourceImageHash { get; set; } = 0.ToString("x2");
 
-        /// <summary>
-        /// Used so the Asset Generator can easily figure out whenever a refresh is needed.
-        /// </summary>
-        public string SourceTextureFileName { get; set; }
+        public UTexture2D()
+        {
+            DisabledProperties.AddRange(new[] {
+                "LightingGuid",
+                "ImportedSize",
+            });
+        }
 
         protected override void WriteJsonForData(JsonWriter writer, JsonSerializer serializer, PackageObjectHierarchy objectHierarchy)
         {
@@ -53,22 +47,10 @@ namespace UEATSerializer.UEAT
                 writer.WriteValue(CookedPixelFormat);
             }
 
-
-            if (SourceTextureFileName != null)
+            if (SourceImageHash != null)
             {
                 writer.WritePropertyName("SourceImageHash");
-                writer.WriteValue(Hash(SourceTextureFileName));
-            }
-        }
-
-        public static string Hash(string input)
-        {
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-                return Convert.ToHexString(hashBytes);
+                writer.WriteValue(SourceImageHash);
             }
         }
     }
